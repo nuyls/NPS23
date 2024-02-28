@@ -16,19 +16,64 @@ class ComplexNumber{
 		double angle();
 };
 
+
+double ComplexNumber::abs(){
+      double sum =  sqrt(pow(real,2)+ pow(imag,2));
+	  return sum;
+}
+double ComplexNumber::angle(){
+	double  angle = atan2(imag,real)*(180/(3.1415926535897932));
+	return angle;
+}
+
 ComplexNumber::ComplexNumber(double x = 0,double y = 0){
 	real = x; imag = y;
 }
-
 ComplexNumber ComplexNumber::operator+(const ComplexNumber &c){
 	return ComplexNumber(real+c.real,imag+c.imag);
 }
-
 ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 	return ComplexNumber(real-c.real,imag-c.imag);
 }
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+	return ComplexNumber(((real)*(c.real))-((imag)*(c.imag)),((real)*(c.imag))+((c.real)*(imag)));
+}
 
-//Write your code here
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+	return ComplexNumber((((real)*(c.real))+((imag)*(c.imag)))/(pow(c.real,2)+pow(c.imag,2)),(((c.real)*(imag))-((real)*(c.imag)))/((pow(c.real,2)+pow(c.imag,2))));
+}
+
+ComplexNumber operator+( double c,const ComplexNumber &b){
+   return ComplexNumber(b.real+c,b.imag);
+}
+ComplexNumber operator-(const double &c,const ComplexNumber &b){
+   return ComplexNumber(b.real-c,-b.imag);
+}
+ComplexNumber operator*(const double &c,const ComplexNumber &b){
+	return ComplexNumber(b.real*c,c*b.imag);
+}
+
+ComplexNumber operator/(const double &c,const ComplexNumber &b){
+	return ComplexNumber((((c)*(b.real))+((0)*(b.imag)))/(pow(b.real,2)+pow(b.imag,2)),(((b.real)*(0))-((c)*(b.imag)))/((pow(b.real,2)+pow(b.imag,2))));
+}
+bool ComplexNumber::operator==(const ComplexNumber &c){
+	if(real == c.real && imag == c.imag) return true;
+	else return false;
+}
+
+bool operator==(double s,const ComplexNumber &c){
+	if(s == c.real && s == c.imag) return true;
+	else return false;
+}
+
+ostream &operator << (ostream &os,const ComplexNumber &c){
+    if(c.real == 0 && c.imag == 0) return os << c.imag ;
+    else if(c.real != 0 && c.imag > 0) return os << c.real << "+" << c.imag << "i";
+    else if(c.real != 0 && c.imag < 0) return os << c.real << c.imag << "i";
+    else if(c.real == 0) return os << c.imag << "i" ;
+    else if(c.imag == 0) return os << c.real ;
+    else return os;
+}
 
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
